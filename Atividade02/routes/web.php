@@ -17,3 +17,17 @@ Route::get('/alunos', function () {
 Route::get('/contato', function () {
     return 'Página de Contato';
 });
+
+// rotas com parametros
+
+Route::get('/produto/{id}', function ($id) {
+    return "Exibindo o produto com ID: {$id}";
+});
+
+Route::get('/categoria/{id}', function ($id) {
+    return "Exibindo a categoria com ID: {$id}";
+});
+
+Route::get('/usuario/{id}', function ($id) {
+    return "Exibindo o usuário com ID: {$id}";
+});
