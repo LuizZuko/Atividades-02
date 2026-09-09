@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-abstract class AlunoController
+use App\Models\Aluno;
+use Illuminate\Http\Request;
+
+class AlunoController extends Controller
 {
-     public function index()
+    public function index()
     {
         $alunos = Aluno::all();
         
         return view('alunos.index', compact('alunos'));
     }
 
-
-   {
-        
+    public function create()
+    {    
         return view('alunos.create');
     }
 
- public function store(Request $request)
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
@@ -27,28 +29,22 @@ abstract class AlunoController
             'telefone' => 'nullable|string',
         ]);
 
-        
         $aluno = Aluno::create($validated);
 
         return redirect()->route('alunos.show', $aluno->id)
                          ->with('success', 'Aluno criado com sucesso!');
     }
 
-
-     
     public function show(Aluno $aluno)
     {
         return view('alunos.show', compact('aluno'));
     }
 
-    
     public function edit(Aluno $aluno)
     {
         return view('alunos.edit', compact('aluno'));
     }
 
-
-    
     public function update(Request $request, Aluno $aluno)
     {
         $validated = $request->validate([
@@ -65,7 +61,6 @@ abstract class AlunoController
                          ->with('success', 'Aluno atualizado com sucesso!');
     }
 
-   
     public function destroy(Aluno $aluno)
     {
         $nome = $aluno->nome;
@@ -75,31 +70,4 @@ abstract class AlunoController
         return redirect()->route('alunos.index')
                          ->with('success', "Aluno {$nome} deletado com sucesso!");
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
