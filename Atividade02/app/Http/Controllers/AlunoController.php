@@ -10,4 +10,38 @@ abstract class AlunoController
         
         return view('alunos.index', compact('alunos'));
     }
+
+
+   {
+        
+        return view('alunos.create');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
