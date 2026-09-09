@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'Cadastrar Aluno')
@@ -21,3 +22,4 @@
 </form>
 
 @endsection
+

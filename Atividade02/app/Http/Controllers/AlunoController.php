@@ -7,67 +7,81 @@ use Illuminate\Http\Request;
 
 class AlunoController extends Controller
 {
-    public function index()
+    
+    public function porCurso($curso)
     {
+<<<<<<< HEAD
+        $alunos = Aluno::where('curso', $curso)->get();
+        return view('alunos.index', compact('alunos'));
+    }
+
+    
+    public function buscarPorNome($termo)
+    {
+        $alunos = Aluno::where('nome', 'like', "%{$termo}%")->get();
+        return view('alunos.index', compact('alunos'));
+=======
         $alunos = Aluno::all();
-        
         return view('alunos.index', compact('alunos'));
     }
 
     public function create()
-    {    
+    {
         return view('alunos.create');
+>>>>>>> tema-7
     }
 
-    public function store(Request $request)
+    public function recentes()
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos',
-            'matricula' => 'required|unique:alunos',
-            'data_nascimento' => 'nullable|date',
-            'telefone' => 'nullable|string',
+<<<<<<< HEAD
+        $alunos = Aluno::where('created_at', '>=', now()->subDays(7))->get();
+        return view('alunos.index', compact('alunos'));
+    }
+
+    public function total()
+    {
+        $totalAlunos = Aluno::count();
+        return "Total de alunos cadastrados: {$totalAlunos}";
+=======
+        Aluno::create([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'curso' => $request->curso,
         ]);
 
-        $aluno = Aluno::create($validated);
-
-        return redirect()->route('alunos.show', $aluno->id)
-                         ->with('success', 'Aluno criado com sucesso!');
+        return redirect()->route('alunos.index');
     }
 
-    public function show(Aluno $aluno)
+    public function show($id)
     {
+        $aluno = Aluno::findOrFail($id);
         return view('alunos.show', compact('aluno'));
     }
 
-    public function edit(Aluno $aluno)
+    public function edit($id)
     {
+        $aluno = Aluno::findOrFail($id);
         return view('alunos.edit', compact('aluno'));
     }
 
-    public function update(Request $request, Aluno $aluno)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email,' . $aluno->id,
-            'matricula' => 'required|unique:alunos,matricula,' . $aluno->id,
-            'data_nascimento' => 'nullable|date',
-            'telefone' => 'nullable|string',
+        $aluno = Aluno::findOrFail($id);
+        $aluno->update([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'curso' => $request->curso,
         ]);
 
-        $aluno->update($validated);
-
-        return redirect()->route('alunos.show', $aluno->id)
-                         ->with('success', 'Aluno atualizado com sucesso!');
+        return redirect()->route('alunos.index');
     }
 
-    public function destroy(Aluno $aluno)
+    public function destroy($id)
     {
-        $nome = $aluno->nome;
-
+        $aluno = Aluno::findOrFail($id);
         $aluno->delete();
 
-        return redirect()->route('alunos.index')
-                         ->with('success', "Aluno {$nome} deletado com sucesso!");
+        return redirect()->route('alunos.index');
+>>>>>>> tema-7
     }
 }
