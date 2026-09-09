@@ -7,67 +7,29 @@ use Illuminate\Http\Request;
 
 class AlunoController extends Controller
 {
-    public function index()
+    
+    public function porCurso($curso)
     {
-        $alunos = Aluno::all();
-        
+        $alunos = Aluno::where('curso', $curso)->get();
         return view('alunos.index', compact('alunos'));
     }
 
-    public function create()
-    {    
-        return view('alunos.create');
+    
+    public function buscarPorNome($termo)
+    {
+        $alunos = Aluno::where('nome', 'like', "%{$termo}%")->get();
+        return view('alunos.index', compact('alunos'));
     }
 
-    public function store(Request $request)
+    public function recentes()
     {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos',
-            'matricula' => 'required|unique:alunos',
-            'data_nascimento' => 'nullable|date',
-            'telefone' => 'nullable|string',
-        ]);
-
-        $aluno = Aluno::create($validated);
-
-        return redirect()->route('alunos.show', $aluno->id)
-                         ->with('success', 'Aluno criado com sucesso!');
+        $alunos = Aluno::where('created_at', '>=', now()->subDays(7))->get();
+        return view('alunos.index', compact('alunos'));
     }
 
-    public function show(Aluno $aluno)
+    public function total()
     {
-        return view('alunos.show', compact('aluno'));
-    }
-
-    public function edit(Aluno $aluno)
-    {
-        return view('alunos.edit', compact('aluno'));
-    }
-
-    public function update(Request $request, Aluno $aluno)
-    {
-        $validated = $request->validate([
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email,' . $aluno->id,
-            'matricula' => 'required|unique:alunos,matricula,' . $aluno->id,
-            'data_nascimento' => 'nullable|date',
-            'telefone' => 'nullable|string',
-        ]);
-
-        $aluno->update($validated);
-
-        return redirect()->route('alunos.show', $aluno->id)
-                         ->with('success', 'Aluno atualizado com sucesso!');
-    }
-
-    public function destroy(Aluno $aluno)
-    {
-        $nome = $aluno->nome;
-
-        $aluno->delete();
-
-        return redirect()->route('alunos.index')
-                         ->with('success', "Aluno {$nome} deletado com sucesso!");
+        $totalAlunos = Aluno::count();
+        return "Total de alunos cadastrados: {$totalAlunos}";
     }
 }
