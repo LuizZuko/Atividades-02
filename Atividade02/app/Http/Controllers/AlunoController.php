@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Aluno;
 use Illuminate\Http\Request;
+use App\Http\Requests\AlunoRequest;
+
 
 class AlunoController extends Controller
 {
-    public function index()
+
+public function store(AlunoRequest $request)
+{
+    Aluno::create($request->validated());
+
+    return redirect()->route('alunos.index');
+}
+
+public function index()
     {
         $alunos = Aluno::all();
         
