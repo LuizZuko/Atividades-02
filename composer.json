@@ -1,0 +1,6 @@
+{
+    "name": "myapp/atividades-02",
+    "require": {
+        "php": ">=8.5"
+    }
+}
