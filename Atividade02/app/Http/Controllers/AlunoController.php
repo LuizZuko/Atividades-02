@@ -10,7 +10,6 @@ class AlunoController extends Controller
     
     public function porCurso($curso)
     {
-<<<<<<< HEAD
         $alunos = Aluno::where('curso', $curso)->get();
         return view('alunos.index', compact('alunos'));
     }
@@ -20,7 +19,6 @@ class AlunoController extends Controller
     {
         $alunos = Aluno::where('nome', 'like', "%{$termo}%")->get();
         return view('alunos.index', compact('alunos'));
-=======
         $alunos = Aluno::all();
         return view('alunos.index', compact('alunos'));
     }
@@ -33,7 +31,7 @@ class AlunoController extends Controller
 
     public function recentes()
     {
-<<<<<<< HEAD
+
         $alunos = Aluno::where('created_at', '>=', now()->subDays(7))->get();
         return view('alunos.index', compact('alunos'));
     }
@@ -42,7 +40,7 @@ class AlunoController extends Controller
     {
         $totalAlunos = Aluno::count();
         return "Total de alunos cadastrados: {$totalAlunos}";
-=======
+
         Aluno::create([
             'nome' => $request->nome,
             'email' => $request->email,
