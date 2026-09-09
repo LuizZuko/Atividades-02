@@ -27,6 +27,36 @@ abstract class AlunoController
             'telefone' => 'nullable|string',
         ]);
 
+        
+        $aluno = Aluno::create($validated);
+
+        return redirect()->route('alunos.show', $aluno->id)
+                         ->with('success', 'Aluno criado com sucesso!');
+    }
+
+
+
+     /**
+     * 4. SHOW - Exibir detalhes de um aluno específico
+     * GET /alunos/{id}
+     */
+    public function show(Aluno $aluno)
+    {
+        // Retorna a view com os detalhes do aluno
+        return view('alunos.show', compact('aluno'));
+    }
+
+    /**
+     * 5. EDIT - Exibir formulário para editar um aluno
+     * GET /alunos/{id}/edit
+     */
+    public function edit(Aluno $aluno)
+    {
+        // Retorna formulário preenchido com dados do aluno
+        return view('alunos.edit', compact('aluno'));
+    }
+
+
 
 
 
